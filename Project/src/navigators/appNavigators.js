@@ -25,10 +25,9 @@ const MainNavigator = createStackNavigator({
             header:null,
         }
     },
-    DetailPate: {
+    DetailPage: {
         screen: DetailPate,
         navigationOptions: {
-            header: null,
         }
     }
 });

@@ -6,8 +6,8 @@ class Index extends Component {
     componentDidMount() {
         this.timer = setTimeout(()=>{
             this.props.navigation.navigate('HomePage')
-            NavigationUtil.resetTohomePage({navigation:this.props.navigation})
-        },2000)
+            NavigationUtil.resetTohomePage(this.props.navigation)
+        },200)
     }
     componentWillUnmount() {
         clearTimeout(this.timer)

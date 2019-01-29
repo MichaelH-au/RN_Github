@@ -3,8 +3,7 @@ export default class NavigationUtil {
      * Go back to previous page
       * @param params
      */
-    static resetTohomePage(params) {
-        const {navigation} = params;
+    static resetTohomePage(navigation) {
         navigation.navigate('HomePage')
     }
 
@@ -12,8 +11,16 @@ export default class NavigationUtil {
      * redirect to HomePage
      * @param params
      */
-    static resetTohomePage(params) {
-        const {navigation} = params;
+    static resetTohomePage(navigation) {
         navigation.navigate('HomePage')
+    }
+
+    static redirectPage(params, page) {
+        const navigation = this.navigation;
+        if (!navigation) {
+            console.log('navigation should not be null!')
+            return
+        }
+        navigation.navigate(page, {...params})
     }
 }
