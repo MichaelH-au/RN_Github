@@ -5,20 +5,43 @@ import {createAppContainer} from 'react-navigation'
 import NavigationUtil from '../../navigators/NavigationUtil'
 
 class Index extends Component {
+    constructor(props) {
+        super(props);
+        this.tabNames = ['Java', 'Android', 'iOS', 'React', 'React Native', 'PHP']
+    }
+
+    /**
+     * generate tabBar items
+     * @private
+     */
+    _genTabs(){
+        const tabs = {};
+        this.tabNames.forEach((item, index)=> {
+            tabs[`tab${index}`] = {
+                screen: props => <PopularTab {...props} tabLabel={item}/>,
+                navigationOptions:{
+                    title:item
+                }
+            }
+        })
+        return tabs
+    }
     render() {
-        const TabNavigator = createMaterialTopTabNavigator({
-            PopularTab1:{
-                screen: PopularTab,
-                navigationOptions:{
-                    title:'Tab1'
-                }
-            },
-            PopularTab2:{
-                screen: PopularTab,
-                navigationOptions:{
-                    title:'Tab1'
-                }
-            },
+        const TabNavigator = createMaterialTopTabNavigator(this._genTabs(),{
+            tabBarOptions:{
+                //tabBar style
+                tabStyle:styles.tabStyle,
+                upperCaseLabel:false,
+                scrollEnabled:true,
+                style:{
+                    //change background color
+                    backgroundColor: '#678'
+                },
+                //underline style
+                indicatorStyle: styles.indicatorStyle,
+                labelStyle: styles.labelStyle
+
+            }
         })
         const NavigatorContainer = createAppContainer(TabNavigator)
         return (
@@ -39,6 +62,7 @@ class PopularTab extends Component {
                         navigation:this.props.navigation
                     },'DetailPage')
                 }}>Redirect to Detail</Text>
+                <Text>{this.props.tabLabel}</Text>
             </View>
         );
     }
@@ -51,5 +75,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    tabStyle:{
+        minWidth:30,
+    },
+    indicatorStyle:{
+        height:2,
+        backgroundColor:'white'
+    },
+    labelStyle:{
+        fontSize:13,
+        marginTop:6,
+        marginBottom:6
+    }
 })
 export default Index;
