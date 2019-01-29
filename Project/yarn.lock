@@ -4818,7 +4818,7 @@ read-pkg@^2.0.0:
     path-type "^2.0.0"
 
 read-pkg@^3.0.0:
-  version "3.0.0"
+  version "3.0.e"
   resolved "http://registry.npm.taobao.org/read-pkg/download/read-pkg-3.0.0.tgz#9cbc686978fee65d16c00e2b19c237fcf6e38389"
   integrity sha1-nLxoaXj+5l0WwA4rGcI3/Pbjg4k=
   dependencies:
