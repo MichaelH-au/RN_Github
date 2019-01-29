@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation'
 import {createAppContainer} from 'react-navigation'
+import from 'react-naviga'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -66,9 +67,11 @@ const TABS = {
 }
 class DynamicTabNavigator extends Component {
     _tabNavigator(){
-       const {PopularPage, TrendingPage, FavoritePage, MyPage} = TABS;
-       const tabs = {PopularPage, TrendingPage, FavoritePage}
-       return createBottomTabNavigator(tabs)
+       const {PopularPage, TrendingPage, FavoritePage, MyInfoPage} = TABS;
+       const tabs = {PopularPage, TrendingPage, FavoritePage, MyInfoPage}
+       return createBottomTabNavigator(tabs, {
+           tabBarComponent:null
+       })
 
     }
     render() {
@@ -78,6 +81,17 @@ class DynamicTabNavigator extends Component {
             <Tab/>
         )
     }
+}
+
+class TabBarComponent extends Component{
+    constructor(props) {
+        super(props);
+        this.theme = {
+            tintColor: props.activeTintColor,
+            updateTime:new Date().getTime()
+        }
+    }
+
 }
 
 const styles = StyleSheet.create({
