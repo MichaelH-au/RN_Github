@@ -16,7 +16,7 @@ export default class NavigationUtil {
     }
 
     static redirectPage(params, page) {
-        const navigation = this.navigation;
+        const navigation = NavigationUtil.navigation;
         if (!navigation) {
             console.log('navigation should not be null!')
             return

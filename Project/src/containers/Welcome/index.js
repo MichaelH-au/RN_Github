@@ -7,7 +7,7 @@ class Index extends Component {
         this.timer = setTimeout(()=>{
             this.props.navigation.navigate('HomePage')
             NavigationUtil.resetTohomePage(this.props.navigation)
-        },200)
+        },2000)
     }
     componentWillUnmount() {
         clearTimeout(this.timer)
@@ -16,7 +16,7 @@ class Index extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Welcome page</Text>
+                <Text>Welcome assistant</Text>
             </View>
         );
     }
