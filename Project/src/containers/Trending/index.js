@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import {connect} from 'react-redux'
+import { changThemeColor } from "../../store/theme/actions";
 
 class Index extends Component {
     render() {
@@ -18,6 +20,10 @@ class Index extends Component {
                         })
                     }}
                 />
+                <Button
+                    title='chang color redux'
+                    onPress={()=>{this.props.changThemeColor('blue')}}
+                />
             </View>
         );
     }
@@ -31,4 +37,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 })
-export default Index;
+
+const mapStateToProps = state=>({
+    theme:state.theme
+})
+
+const actionCreators = {changThemeColor}
+
+// const mapDispatchToProps = dispatch => ({
+//     onThemeChange: theme => dispatch(changThemeColor(theme))
+// })
+export default connect(mapStateToProps, actionCreators)(Index);

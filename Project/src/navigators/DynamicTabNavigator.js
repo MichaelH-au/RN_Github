@@ -10,6 +10,7 @@ import Popular from '../containers/Propular'
 import Trending  from '../containers/Trending'
 import Favorite from '../containers/Favorite'
 import MyInfo from '../containers/MyInfo'
+import {connect} from 'react-redux'
 
 import NavigationUtil from './NavigationUtil'
 
@@ -67,11 +68,14 @@ const TABS = {
 }
 class DynamicTabNavigator extends Component {
     _tabNavigator(){
-       const {PopularPage, TrendingPage, FavoritePage, MyInfoPage} = TABS;
-       const tabs = {PopularPage, TrendingPage, FavoritePage, MyInfoPage}
-       return createBottomTabNavigator(tabs,{
-           tabBarComponent:TabBarComponent
-       })
+        if (this.Tabs) {
+            return this.Tabs;
+        }
+        const {PopularPage, TrendingPage, FavoritePage, MyInfoPage} = TABS;
+        const tabs = {PopularPage, TrendingPage, FavoritePage, MyInfoPage}
+        return this.Tabs = createBottomTabNavigator(tabs,{
+            tabBarComponent:props => <TabBarComponent theme={this.props.theme} {...props}/>
+        })
 
     }
     render() {
@@ -104,7 +108,8 @@ class TabBarComponent extends Component{
         }
         return <BottomTabBar
             {...this.props}
-            activeTintColor={this.theme.tintColor||this.props.activeTintColor}
+            // activeTintColor={this.theme.tintColor||this.props.activeTintColor}
+            activeTintColor={this.props.theme}
         />
     }
 
@@ -118,4 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 })
-export default DynamicTabNavigator;
+
+
+const mapStateToProps = state=>({
+    theme:state.theme.theme
+})
+
+const actionCreator = {}
+export default connect(mapStateToProps, actionCreator)(DynamicTabNavigator);
