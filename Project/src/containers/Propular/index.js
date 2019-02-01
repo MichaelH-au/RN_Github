@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl } from 'react-native';
 import { createMaterialTopTabNavigator} from 'react-navigation'
 import {createAppContainer} from 'react-navigation'
+import {connect}from 'react-redux'
+import {getProject} from "../../store/projects/actions";
 import NavigationUtil from '../../navigators/NavigationUtil'
 
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.tabNames = ['Java', 'Android', 'iOS', 'React', 'React Native', 'PHP']
+        this.state = {
+            tabNames : ['Java', 'Android', 'iOS', 'React', 'React Native', 'PHP']
+        }
     }
 
     /**
@@ -16,9 +20,10 @@ class Index extends Component {
      */
     _genTabs(){
         const tabs = {};
-        this.tabNames.forEach((item, index)=> {
+        this.state.tabNames.forEach((item, index)=> {
+            // alert(this.props.getProject)
             tabs[`tab${index}`] = {
-                screen: props => <PopularTab {...props} tabLabel={item}/>,
+                screen: props => <PopularPage {...props} tabLabel={item}/>,
                 navigationOptions:{
                     title:item
                 }
@@ -53,8 +58,23 @@ class Index extends Component {
 }
 
 class PopularTab extends Component {
+    componentDidMount(){
+        this.props.getProject(this.props.tabLabel)
+    }
+    renderItem(data){
+        const item = data.item
+        return (
+            <View style={{marginBottom: 10}}>
+                <Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>
+            </View>
+        )
+    }
     render() {
         const {tabLabel} = this.props;
+        // let tabLabel = this.props.tabLabel
+        const {projects} = this.props;
+        let store = projects[tabLabel]?projects[tabLabel]:{items:[],isLoading:false};
+
         return (
             <View style={styles.container}>
                 <Text onPress={()=>{
@@ -63,10 +83,38 @@ class PopularTab extends Component {
                     },'DetailPage')
                 }}>Redirect to Detail</Text>
                 <Text>{this.props.tabLabel}</Text>
+                {/*{*/}
+                   {/*store.items.map((item,index)=>(*/}
+                    {/*<Text>{item.full_name}111</Text>*/}
+                    {/*))*/}
+                {/*}*/}
+                <FlatList
+                    data={store.items}
+                    renderItem={data => this.renderItem(data)}
+                    keyExtractor={item => '' + item.id}
+                    refreshControl={
+                        <RefreshControl
+                            title={'loading'}
+                            titleColor={'red'}
+                            colors={['red']}
+                            refreshing={store.isLoading}
+                            onRefresh={()=>this.props.getProject(this.props.tabLabel)}
+                            tintColor={'red'}
+                        />
+                    }
+                />
             </View>
         );
     }
 }
+const mapStateToProps = state => ({
+    projects:state.project
+})
+
+const actionCreator = {
+    getProject
+}
+const PopularPage = connect(mapStateToProps, actionCreator)(PopularTab);
 
 const styles = StyleSheet.create({
     container: {
