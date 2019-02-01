@@ -5,6 +5,7 @@ import {createAppContainer} from 'react-navigation'
 import {connect}from 'react-redux'
 import {getProject} from "../../store/projects/actions";
 import NavigationUtil from '../../navigators/NavigationUtil'
+import PopularItem from '../../components/popularItem'
 
 class Index extends Component {
     constructor(props) {
@@ -65,7 +66,8 @@ class PopularTab extends Component {
         const item = data.item
         return (
             <View style={{marginBottom: 10}}>
-                <Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>
+                {/*<Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>*/}
+                <PopularItem item={item} onSelect={()=>{}}/>
             </View>
         )
     }
@@ -77,17 +79,12 @@ class PopularTab extends Component {
 
         return (
             <View style={styles.container}>
-                <Text onPress={()=>{
-                    NavigationUtil.redirectPage({
-                        navigation:this.props.navigation
-                    },'DetailPage')
-                }}>Redirect to Detail</Text>
-                <Text>{this.props.tabLabel}</Text>
-                {/*{*/}
-                   {/*store.items.map((item,index)=>(*/}
-                    {/*<Text>{item.full_name}111</Text>*/}
-                    {/*))*/}
-                {/*}*/}
+                {/*<Text onPress={()=>{*/}
+                    {/*NavigationUtil.redirectPage({*/}
+                        {/*navigation:this.props.navigation*/}
+                    {/*},'DetailPage')*/}
+                {/*}}>Redirect to Detail</Text>*/}
+                {/*<Text>{this.props.tabLabel}</Text>*/}
                 <FlatList
                     data={store.items}
                     renderItem={data => this.renderItem(data)}

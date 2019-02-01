@@ -10,9 +10,9 @@ const initState = {
 export default function (state = initState, action) {
     switch (action.type) {
         case REFREASH_PROJECTS:
-            return {...state, [action.language]:{...[action.language],isLoading:true,items:[]}}
+            return {...state, [action.language]:{...state[action.language],isLoading:true,items:[]}}
         case GET_PROJECTS:
-            return {...state, [action.language]:{...[action.language],items:action.data,isLoading: false}}
+            return {...state, [action.language]:{...state[action.language],items:action.data,isLoading: false}}
         case ERROR_MESSAGE:
             return {...state, errorMsg:action.data}
         default:
