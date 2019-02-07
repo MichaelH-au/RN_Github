@@ -4,9 +4,11 @@ import { createMaterialTopTabNavigator} from 'react-navigation'
 import {createAppContainer} from 'react-navigation'
 import {connect}from 'react-redux'
 import {getProject} from "../../store/projects/actions";
+import {loadMoreProjects} from "../../store/projects/actions";
 import NavigationUtil from '../../navigators/NavigationUtil'
 import PopularItem from '../../components/popularItem'
 
+const PAGE_SIZE = 10
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +62,7 @@ class Index extends Component {
 
 class PopularTab extends Component {
     componentDidMount(){
-        this.props.getProject(this.props.tabLabel)
+        this.props.getProject(this.props.tabLabel, PAGE_SIZE)
     }
     renderItem(data){
         const item = data.item
@@ -99,6 +101,10 @@ class PopularTab extends Component {
                             tintColor={'red'}
                         />
                     }
+                    onEndReached={() => {
+                        this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                    }}
+                    onEndReachedThreshold={0.5}
                 />
             </View>
         );
@@ -109,7 +115,8 @@ const mapStateToProps = state => ({
 })
 
 const actionCreator = {
-    getProject
+    getProject,
+    loadMoreProjects
 }
 const PopularPage = connect(mapStateToProps, actionCreator)(PopularTab);
 
