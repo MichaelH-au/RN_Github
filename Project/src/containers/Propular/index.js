@@ -7,6 +7,7 @@ import {getProject} from "../../store/projects/actions";
 import {loadMoreProjects} from "../../store/projects/actions";
 import NavigationUtil from '../../navigators/NavigationUtil'
 import PopularItem from '../../components/popularItem'
+import NavBar from '../../components/NavBar'
 
 const PAGE_SIZE = 10
 class Index extends Component {
@@ -35,6 +36,15 @@ class Index extends Component {
         return tabs
     }
     render() {
+        let statusBar = {
+            backgroundColor:'#678',
+            barStyle:'light-content'
+        }
+        let navBar = <NavBar
+            title = {'Hot'}
+            statusBar={statusBar}
+            style={{backgroundColor:'#678'}}
+        />
         const TabNavigator = createMaterialTopTabNavigator(this._genTabs(),{
             tabBarOptions:{
                 //tabBar style
@@ -54,6 +64,7 @@ class Index extends Component {
         const NavigatorContainer = createAppContainer(TabNavigator)
         return (
             <View style={{flex:1,paddingTop:30}}>
+                {navBar}
                 <NavigatorContainer/>
             </View>
         );
@@ -102,10 +113,12 @@ class PopularTab extends Component {
                         />
                     }
                     onEndReached={() => {
-                        if (this.canLoadMore) {
-                            this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
-                            this.canLoadMore = false
-                        }
+                        setTimeout(() => {
+                            if (this.canLoadMore) {
+                                this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                                this.canLoadMore = false
+                            }
+                        }, 100)
                     }}
                     onEndReachedThreshold={0.5}
                     onMomentumScrollBegin = {() => {
