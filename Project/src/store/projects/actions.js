@@ -6,10 +6,10 @@ import {LOAD_MORE_PROJECTS} from "./constants";
 import {LOAD_MORE_PROJECTS_FAILED} from "./constants";
 
 export function loadMoreProjects(language, pageIndex, pageSize, dataArray) {
-    if ((pageIndex - 1) * pageSize >= dataArray) {
-        return {type:LOAD_MORE_PROJECTS_FAILED,language, errorMsg:'No more projects'}
+    if ((pageIndex - 1) * pageSize >= dataArray.length) {
+        return {type:LOAD_MORE_PROJECTS_FAILED,language, errorMsg:'No more projects',dataArray}
     } else {
-        let index = pageSize * pageIndex > dataArray ? dataArray.length : pageSize * pageIndex
+        let index = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex
         return {type:LOAD_MORE_PROJECTS,language, index, pageIndex, dataArray}
     }
 }

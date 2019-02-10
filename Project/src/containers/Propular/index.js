@@ -102,10 +102,24 @@ class PopularTab extends Component {
                         />
                     }
                     onEndReached={() => {
-                        this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                        if (this.canLoadMore) {
+                            this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                            this.canLoadMore = false
+                        }
                     }}
                     onEndReachedThreshold={0.5}
+                    onMomentumScrollBegin = {() => {
+                        this.canLoadMore = true
+                    }}
                 />
+                {store.loadFinished
+                    ?<Text>No more project</Text>
+                    :null
+                }
+                {this.canLoadMore
+                    ?<Text> project</Text>
+                        :<Text>no project</Text>
+                }
             </View>
         );
     }

@@ -18,7 +18,7 @@ export default function (state = initState, action) {
         case LOAD_MORE_PROJECTS:
             return {...state, [action.language]:{...state[action.language],items:action.dataArray.slice(0, action.index), pageIndex:action.pageIndex}}
         case LOAD_MORE_PROJECTS_FAILED:
-            return {...state, [action.language]:{...state[action.language],items:state.allProjects.slice(0, index), loadFinished: true}}
+            return {...state, [action.language]:{...state[action.language],items:action.dataArray, loadFinished: true}}
         case ERROR_MESSAGE:
             return {...state, errorMsg:action.data}
         default:
