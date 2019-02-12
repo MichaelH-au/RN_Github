@@ -31,9 +31,10 @@ export function loadMoreTredings(language, pageIndex, pageSize, dataArray) {
 //     }
 // }
 
-export function getTrending(language, pageSize) {
+export function getTrending(language, pageSize, timeSpan) {
     return dispatch => {
-        new Trending().fetchTrending(`https://github.com/trending/${language}`)
+        dispatch({type:REFREASH_TRENDINGS,language})
+        new Trending().fetchTrending(`https://github.com/trending/${language}?${timeSpan}`)
             .then(items => {
                 if (!items) {
                     throw new Error('empty data')

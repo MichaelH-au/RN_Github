@@ -89,7 +89,7 @@ class PopularTab extends Component {
         const {tabLabel} = this.props;
         // let tabLabel = this.props.tabLabel
         const {projects} = this.props;
-        let store = projects[tabLabel]?projects[tabLabel]:{items:[],isLoading:false};
+        let store = projects[tabLabel]?projects[tabLabel]:{items:[],isLoading:true};
 
         return (
             <View style={styles.container}>
