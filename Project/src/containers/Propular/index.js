@@ -63,7 +63,7 @@ class Index extends Component {
         })
         const NavigatorContainer = createAppContainer(TabNavigator)
         return (
-            <View style={{flex:1,paddingTop:30}}>
+            <View style={{flex:1,paddingTop:0}}>
                 {navBar}
                 <NavigatorContainer/>
             </View>
