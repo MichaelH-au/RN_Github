@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, RefreshControl, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl, TouchableOpacity,DeviceEventEmitter } from 'react-native';
 import { createMaterialTopTabNavigator} from 'react-navigation'
 import {createAppContainer} from 'react-navigation'
 import {connect}from 'react-redux'
@@ -13,6 +13,7 @@ import TrendingDialog, {timeSpans} from '../../components/TrendingDialog'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const PAGE_SIZE = 10
+const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -68,6 +69,7 @@ class Index extends Component {
         this.setState({
             timeSpan:tab
         })
+        DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE, tab)
     }
     renderTrendingDialog() {
         return <TrendingDialog
@@ -134,6 +136,15 @@ class PopularTab extends Component {
 
     componentDidMount(){
         this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan)
+        this.timeSpanListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
+            this.timeSpan = timeSpan.searchText;
+            this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan)
+        })
+    }
+    componentWillUnmount(){
+        if (this.timeSpanListener) {
+            this.timeSpanListener.remove()
+        }
     }
     renderItem(data){
         const item = data.item
