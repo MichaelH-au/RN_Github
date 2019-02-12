@@ -53,9 +53,11 @@ class Indiex extends Component {
         })
     }
     render() {
+        const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight:30} : null
         let navBar = <NavBar
             leftButton={NavUtil.getLeftBackButton(() => this.onBack())}
-            rightButton = {this.renderRightButton}
+            titleLayoutStyle={titleLayoutStyle}
+            rightButton = {this.renderRightButton()}
             title = {this.state.title}
             style={{backgroundColor:'#678'}}
         />
