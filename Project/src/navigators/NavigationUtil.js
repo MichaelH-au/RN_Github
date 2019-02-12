@@ -3,8 +3,8 @@ export default class NavigationUtil {
      * Go back to previous page
       * @param params
      */
-    static resetTohomePage(navigation) {
-        navigation.navigate('HomePage')
+    static goBack(navigation) {
+        navigation.goBack()
     }
 
     /**

@@ -8,6 +8,7 @@ import {loadMoreProjects} from "../../store/projects/actions";
 import NavigationUtil from '../../navigators/NavigationUtil'
 import PopularItem from '../../components/popularItem'
 import NavBar from '../../components/NavBar'
+import DetailPage from '../Details'
 
 const PAGE_SIZE = 10
 class Index extends Component {
@@ -81,7 +82,9 @@ class PopularTab extends Component {
         return (
             <View style={{marginBottom: 10}}>
                 {/*<Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>*/}
-                <PopularItem item={item} onSelect={()=>{}}/>
+                <PopularItem item={item} onSelect={()=>{
+                    NavigationUtil.redirectPage({project:item}, 'DetailPage')
+                }}/>
             </View>
         )
     }
