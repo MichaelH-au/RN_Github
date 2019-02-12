@@ -54,7 +54,8 @@ class Index extends Component {
                 scrollEnabled:true,
                 style:{
                     //change background color
-                    backgroundColor: '#678'
+                    backgroundColor: '#678',
+                    height:30
                 },
                 //underline style
                 indicatorStyle: styles.indicatorStyle,
@@ -156,7 +157,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     tabStyle:{
-        minWidth:30,
+        // minWidth:30,  //may cause problem when first loading on android
+        padding: 0
     },
     indicatorStyle:{
         height:2,
@@ -164,8 +166,9 @@ const styles = StyleSheet.create({
     },
     labelStyle:{
         fontSize:13,
-        marginTop:6,
-        marginBottom:6
+        // marginTop:6,
+        // marginBottom:6
+        margin:0
     }
 })
 export default Index;
