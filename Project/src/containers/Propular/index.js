@@ -12,7 +12,7 @@ import DetailPage from '../Details'
 import FavoriteDao from '../../dao/FavoriteDao'
 import FavUtil from '../../utils/Favorite'
 
-const favoriteDao = new FavoriteDao('propular')
+const favoriteDao = new FavoriteDao('popular')
 
 const PAGE_SIZE = 10
 class Index extends Component {
@@ -89,7 +89,7 @@ class PopularTab extends Component {
                 <PopularItem
                     // item={item}
                     projectModel={item} onSelect={()=>{
-                    NavigationUtil.redirectPage({project:item.item}, 'DetailPage')
+                    NavigationUtil.redirectPage({projectModel:item,flag:'popular'}, 'DetailPage')
                     }}
                     onFavorite = {(item, isFavorite) => {
                          FavUtil.onFavorite(favoriteDao, item, isFavorite, 'popular')

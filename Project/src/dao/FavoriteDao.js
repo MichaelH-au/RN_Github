@@ -14,8 +14,12 @@ export default class FavoriteDao {
      * @param callback
      */
     saveFavoriteItem(key, value, callback) {
+        console.log(this.favoriteKey)
+        console.log(key)
+        console.log(value)
         AsyncStorage.setItem(key, value, (error, result) => {
             if (!error) {
+                console.log('success')
                 this.updateFavoriteKeys(key, true)
             }
         })

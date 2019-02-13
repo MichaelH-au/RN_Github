@@ -5,20 +5,25 @@ import {createMaterialTopTabNavigator} from "react-navigation";
 import NavUtil from '../../components/NavBar/util'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import NavigationUtil from '../../navigators/NavigationUtil'
+import FavoriteDao from "../../dao/FavoriteDao";
 
 const TRENDING_URL = 'https://github.com'
 class Indiex extends Component {
     constructor(props) {
         super(props);
         this.params = this.props.navigation.state.params
-        const {project} = this.params
-        console.log(project)
-        this.url = TRENDING_URL + project.url || TRENDING_URL + project.full_name
-        console.log(this.url)
+        const {projectModel, flag} = this.params
+        const project = projectModel.item
+        this.favoriteDao = new FavoriteDao(flag)
+        // console.log(project)
+        this.url = flag === 'trending' ? TRENDING_URL + project.url : TRENDING_URL + '/' + project.full_name
+        // console.log(this.url)
+        // console.log(projectMode.isFavorite)
         const title = project.full_name || project.fullName
         this.state = {
             title: title,
             url: this.url,
+            isFavorite:projectModel.isFavorite,
             canGoBack: false
         }
     }
@@ -30,16 +35,32 @@ class Indiex extends Component {
             NavigationUtil.goBack(this.props.navigation)
         }
     }
+    onFavoriteButtonClick(){
+        const {projectModel} = this.params
+        const isFavorite = projectModel.isFavorite = !projectModel.isFavorite
+        this.setState({
+            isFavorite:isFavorite
+        })
+        let key = projectModel.item.fullName ? projectModel.item.fullName : projectModel.item.id.toString()
+        console.log(this.favoriteDao)
+        console.log(key)
+        console.log(projectModel.isFavorite)
+        if (projectModel.isFavorite) {
+            this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item))
+        } else {
+            this.favoriteDao.removeFavoriteItem(key)
+        }
+    }
     renderRightButton() {
         return (
             <View style={{flexDirection:'row'}}>
                 <TouchableOpacity
                     onPress={() => {
-
+                        this.onFavoriteButtonClick()
                     }}
                 >
                     <FontAwesome
-                        name={'star-o'}
+                        name={this.state.isFavorite ? 'star' : 'star-o'}
                         size={20}
                         style={{color: 'white', marginRight:10}}
                     />

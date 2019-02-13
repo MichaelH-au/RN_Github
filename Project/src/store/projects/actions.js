@@ -12,7 +12,7 @@ export function loadMoreProjects(language, pageIndex, pageSize, dataArray, favor
         return {type:LOAD_MORE_PROJECTS_FAILED,language, errorMsg:'No more projects',dataArray}
     } else {
         let index = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex
-        _projectModels(dataArray.slice(0, max), favoriteDao, projectModels => {
+        _projectModels(dataArray.slice(0, index), favoriteDao, projectModels => {
             return {type:LOAD_MORE_PROJECTS,language, index, pageIndex, dataArray, projectModels}
         })
     }

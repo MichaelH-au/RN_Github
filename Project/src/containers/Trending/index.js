@@ -14,7 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FavoriteDao from '../../dao/FavoriteDao'
 import FavUtil from '../../utils/Favorite'
 
-const favoriteDao = new FavoriteDao('propular')
+const favoriteDao = new FavoriteDao('trending')
 
 const PAGE_SIZE = 10
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
@@ -158,7 +158,7 @@ class PopularTab extends Component {
                 <PopularItem
                     projectModel={item}
                     onSelect={()=>{
-                        NavigationUtil.redirectPage({project:item.item}, 'DetailPage')
+                        NavigationUtil.redirectPage({projectModel:item,flag:'trending'}, 'DetailPage')
                     }}
                     onFavorite = {(item, isFavorite) => {
                         FavUtil.onFavorite(favoriteDao, item, isFavorite, 'trending')

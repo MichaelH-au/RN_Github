@@ -14,7 +14,7 @@ export function loadMoreTredings(language, pageIndex, pageSize, dataArray, favor
     } else {
         let index = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex
         // return {type:LOAD_MORE_TRENDINGS,language, index, pageIndex, dataArray}
-        _projectModels(dataArray.slice(0, max), favoriteDao, projectModels => {
+        _projectModels(dataArray.slice(0, index), favoriteDao, projectModels => {
             return {type:LOAD_MORE_TRENDINGS,language, index, pageIndex, dataArray, projectModels}
         })
     }
