@@ -1,23 +1,26 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import FontAwesom from 'react-native-vector-icons/FontAwesome'
-
-class Index extends Component {
+import BaseItem from '../BaseItem'
+class Index extends BaseItem {
     render() {
-        const {item} = this.props;
+        // const {item} = this.props;
+        const {projectModel} = this.props;
+        const {item} = projectModel
+        console.log(item)
         if (!item || !item.owner) return null
-        let favoriteButton =
-            <TouchableOpacity
-                style={{padding:6}}
-                onPress={()=>{}}
-                underlayColor={'transparent'}
-            >
-                <FontAwesom
-                    name={'star-o'}
-                    size={26}
-                    style={{color:'red'}}
-                />
-            </TouchableOpacity>
+        // let favoriteButton =
+        //     <TouchableOpacity
+        //         style={{padding:6}}
+        //         onPress={()=>{}}
+        //         underlayColor={'transparent'}
+        //     >
+        //         <FontAwesom
+        //             name={'star-o'}
+        //             size={26}
+        //             style={{color:'red'}}
+        //         />
+        //     </TouchableOpacity>
         return (
             <View>
                 <TouchableOpacity
@@ -39,7 +42,8 @@ class Index extends Component {
                                 <Text>{item.stargazers_count}</Text>
 
                             </View>
-                            {favoriteButton}
+                            {/*{favoriteButton}*/}
+                            {this._favoriteIcon()}
                         </View>
                     </View>
                 </TouchableOpacity>

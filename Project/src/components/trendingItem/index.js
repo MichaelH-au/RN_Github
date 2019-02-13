@@ -2,23 +2,28 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import FontAwesom from 'react-native-vector-icons/FontAwesome'
 import HTMLView from 'react-native-htmlview'
+import BaseItem from '../BaseItem'
 
-class Index extends Component {
+
+
+class Index extends BaseItem {
     render() {
-        const {item} = this.props;
+        const {projectModel} = this.props;
+        const {item} = projectModel
+        // const {item} = this.props;
         if (!item) return null
-        let favoriteButton =
-            <TouchableOpacity
-                style={{padding:6}}
-                onPress={()=>{}}
-                underlayColor={'transparent'}
-            >
-                <FontAwesom
-                    name={'star-o'}
-                    size={26}
-                    style={{color:'red'}}
-                />
-            </TouchableOpacity>
+        // let favoriteButton =
+        //     <TouchableOpacity
+        //         style={{padding:6}}
+        //         onPress={()=>{}}
+        //         underlayColor={'transparent'}
+        //     >
+        //         <FontAwesom
+        //             name={'star-o'}
+        //             size={26}
+        //             style={{color:'red'}}
+        //         />
+        //     </TouchableOpacity>
         let description = `<p>${item.description}</p>`
         return (
             <View>
@@ -55,7 +60,8 @@ class Index extends Component {
                                 <Text>{item.starCount}</Text>
 
                             </View>
-                            {favoriteButton}
+                            {/*{favoriteButton}*/}
+                            {this._favoriteIcon()}
                         </View>
                     </View>
                 </TouchableOpacity>

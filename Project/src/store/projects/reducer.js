@@ -14,9 +14,11 @@ export default function project(state = initState, action) {
         case REFREASH_PROJECTS:
             return {...state, [action.language]:{...state[action.language],isLoading:true,items:[]}}
         case GET_PROJECTS:
-            return {...state, [action.language]:{...state[action.language],items:action.data.slice(0, action.pageSize),isLoading: false, allProjects : action.data, pageIndex:1}}
+            // return {...state, [action.language]:{...state[action.language],items:action.data.slice(0, action.pageSize),isLoading: false, allProjects : action.data, pageIndex:1}}
+            return {...state, [action.language]:{...state[action.language],items:action.projectModels,isLoading: false, allProjects : action.data, pageIndex:1}}
         case LOAD_MORE_PROJECTS:
-            return {...state, [action.language]:{...state[action.language],items:action.dataArray.slice(0, action.index), pageIndex:action.pageIndex}}
+            // return {...state, [action.language]:{...state[action.language],items:action.dataArray.slice(0, action.index), pageIndex:action.pageIndex}}
+            return {...state, [action.language]:{...state[action.language],items:action.projectModels, pageIndex:action.pageIndex}}
         case LOAD_MORE_PROJECTS_FAILED:
             return {...state, [action.language]:{...state[action.language],items:action.dataArray, loadFinished: true}}
         case ERROR_MESSAGE:

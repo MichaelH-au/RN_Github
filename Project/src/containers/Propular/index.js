@@ -9,6 +9,10 @@ import NavigationUtil from '../../navigators/NavigationUtil'
 import PopularItem from '../../components/popularItem'
 import NavBar from '../../components/NavBar'
 import DetailPage from '../Details'
+import FavoriteDao from '../../dao/FavoriteDao'
+import FavUtil from '../../utils/Favorite'
+
+const favoriteDao = new FavoriteDao('propular')
 
 const PAGE_SIZE = 10
 class Index extends Component {
@@ -75,16 +79,22 @@ class Index extends Component {
 
 class PopularTab extends Component {
     componentDidMount(){
-        this.props.getProject(this.props.tabLabel, PAGE_SIZE)
+        this.props.getProject(this.props.tabLabel, PAGE_SIZE, favoriteDao)
     }
     renderItem(data){
         const item = data.item
         return (
             <View style={{marginBottom: 10}}>
                 {/*<Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>*/}
-                <PopularItem item={item} onSelect={()=>{
+                <PopularItem
+                    // item={item}
+                    projectModel={item} onSelect={()=>{
                     NavigationUtil.redirectPage({project:item}, 'DetailPage')
-                }}/>
+                    }}
+                    onFavorite = {(item, isFavorite) => {
+                         FavUtil.onFavorite(favoriteDao, item, isFavorite, 'popular')
+                    }}
+                />
             </View>
         )
     }
@@ -93,7 +103,6 @@ class PopularTab extends Component {
         // let tabLabel = this.props.tabLabel
         const {projects} = this.props;
         let store = projects[tabLabel]?projects[tabLabel]:{items:[],isLoading:true};
-
         return (
             <View style={styles.container}>
                 {/*<Text onPress={()=>{*/}
@@ -105,21 +114,21 @@ class PopularTab extends Component {
                 <FlatList
                     data={store.items}
                     renderItem={data => this.renderItem(data)}
-                    keyExtractor={item => '' + item.id}
+                    keyExtractor={item => '' + item.item.id}
                     refreshControl={
                         <RefreshControl
                             title={'loading'}
                             titleColor={'red'}
                             colors={['red']}
                             refreshing={store.isLoading}
-                            onRefresh={()=>this.props.getProject(this.props.tabLabel)}
+                            onRefresh={()=>this.props.getProject(this.props.tabLabel, PAGE_SIZE, favoriteDao)}
                             tintColor={'red'}
                         />
                     }
                     onEndReached={() => {
                         setTimeout(() => {
                             if (this.canLoadMore) {
-                                this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                                this.props.loadMoreProjects(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects,favoriteDao)
                                 this.canLoadMore = false
                             }
                         }, 100)
