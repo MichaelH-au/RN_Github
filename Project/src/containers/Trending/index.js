@@ -11,6 +11,10 @@ import PopularItem from '../../components/trendingItem'
 import NavBar from '../../components/NavBar'
 import TrendingDialog, {timeSpans} from '../../components/TrendingDialog'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import FavoriteDao from '../../dao/FavoriteDao'
+import FavUtil from '../../utils/Favorite'
+
+const favoriteDao = new FavoriteDao('propular')
 
 const PAGE_SIZE = 10
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
@@ -135,10 +139,10 @@ class PopularTab extends Component {
     }
 
     componentDidMount(){
-        this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan)
+        this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan, favoriteDao)
         this.timeSpanListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
             this.timeSpan = timeSpan.searchText;
-            this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan)
+            this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan, favoriteDao)
         })
     }
     componentWillUnmount(){
@@ -151,7 +155,16 @@ class PopularTab extends Component {
         return (
             <View style={{marginBottom: 10}}>
                 {/*<Text style={{backgroundColor:'#faa'}}>{JSON.stringify(item)}</Text>*/}
-                <PopularItem item={item} onSelect={()=>{}}/>
+                <PopularItem
+                    projectModel={item}
+                    onSelect={()=>{
+                        NavigationUtil.redirectPage({project:item.item}, 'DetailPage')
+                    }}
+                    onFavorite = {(item, isFavorite) => {
+                        FavUtil.onFavorite(favoriteDao, item, isFavorite, 'trending')
+                    }}
+
+                />
             </View>
         )
     }
@@ -172,21 +185,21 @@ class PopularTab extends Component {
                 <FlatList
                     data={store.items}
                     renderItem={data => this.renderItem(data)}
-                    keyExtractor={item => '' + item.fullName}
+                    keyExtractor={item => '' + item.item.fullName}
                     refreshControl={
                         <RefreshControl
                             title={'loading'}
                             titleColor={'red'}
                             colors={['red']}
                             refreshing={store.isLoading}
-                            onRefresh={()=>this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan)}
+                            onRefresh={()=>this.props.getTrending(this.props.tabLabel, PAGE_SIZE, this.timeSpan, favoriteDao)}
                             tintColor={'red'}
                         />
                     }
                     onEndReached={() => {
                         setTimeout(() => {
                             if (this.canLoadMore) {
-                                this.props.loadMoreTredings(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects)
+                                this.props.loadMoreTredings(tabLabel,++store.pageIndex,PAGE_SIZE ,store.allProjects, favoriteDao)
                                 this.canLoadMore = false
                             }
                         }, 100)

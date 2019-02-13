@@ -12,7 +12,9 @@ class Indiex extends Component {
         super(props);
         this.params = this.props.navigation.state.params
         const {project} = this.params
-        this.url = project.html_url || TRENDING_URL + project.full_name
+        console.log(project)
+        this.url = TRENDING_URL + project.url || TRENDING_URL + project.full_name
+        console.log(this.url)
         const title = project.full_name || project.fullName
         this.state = {
             title: title,

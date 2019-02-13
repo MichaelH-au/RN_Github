@@ -89,7 +89,7 @@ class PopularTab extends Component {
                 <PopularItem
                     // item={item}
                     projectModel={item} onSelect={()=>{
-                    NavigationUtil.redirectPage({project:item}, 'DetailPage')
+                    NavigationUtil.redirectPage({project:item.item}, 'DetailPage')
                     }}
                     onFavorite = {(item, isFavorite) => {
                          FavUtil.onFavorite(favoriteDao, item, isFavorite, 'popular')
